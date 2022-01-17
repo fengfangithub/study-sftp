@@ -1,0 +1,29 @@
+sftp:
+  #服务器ip
+  host: 192.168.159.135
+  #ssh端口
+  port: 22
+  #用户名
+  username: YB001
+  #密码
+  password: 123456
+  #连接池参数
+  pool:
+    #对象池中管理的最多对象个数。默认值是8
+    max-total: 10
+    #对象池中最大的空闲对象个数。默认值是8
+    max-idle: 10
+    #对象池中最小的空闲对象个数。默认值是0
+    min-idle: 5
+xxl:
+  job:
+    enabled: true
+    admin:
+      addresses: http://127.0.0.1:8071/xxl-job-admin
+    accessToken:
+    executor:
+      appname: stfp-test
+      ip:
+      port: 9998
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: -1
