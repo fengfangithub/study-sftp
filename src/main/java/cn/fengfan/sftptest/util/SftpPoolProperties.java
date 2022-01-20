@@ -20,13 +20,10 @@ public class SftpPoolProperties extends GenericObjectPoolConfig<ChannelSftp> {
     private int maxIdle = DEFAULT_MAX_IDLE;
     @Value("${sftp.pool.min-idle}")
     private int minIdle = DEFAULT_MIN_IDLE;
-    @Value("${sftp.pool.test-on-borrow}")
-    private boolean testOnBorrow = true;
 
     public SftpPoolProperties() {
         super.setMaxIdle(maxIdle);
         super.setMaxTotal(maxTotal);
         super.setMinIdle(minIdle);
-        super.setTestOnBorrow(testOnBorrow);
     }
 }

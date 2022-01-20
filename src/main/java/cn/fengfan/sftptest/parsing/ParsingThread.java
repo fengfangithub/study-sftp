@@ -26,6 +26,7 @@ public class ParsingThread implements Runnable{
             FileInputStream fileInputStream = new FileInputStream("C:\\Users\\fengfan\\Pictures\\Saved Pictures\\timg" + ".jpg");
             String fileName = UUID.randomUUID().toString().replace("-", "") + ".jpg";
             sftpUtil.upload("/upload/" + Thread.currentThread().getName() + "/", fileName, fileInputStream);
+            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }

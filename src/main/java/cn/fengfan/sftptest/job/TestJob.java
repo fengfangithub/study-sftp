@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by fengfan on 2021/12/2 15:20
@@ -21,6 +22,8 @@ public class TestJob extends IJobHandler {
     Logger logger = LoggerFactory.getLogger(TestJob.class);
     @Resource
     private SftpPool sftpPool;
+    @Resource
+    private ThreadPoolExecutor threadPoolExecutor;
 
     @Override
     public ReturnT<String> execute(String s) {
@@ -28,8 +31,8 @@ public class TestJob extends IJobHandler {
         ShardingUtil.ShardingVO shardingVO = ShardingUtil.getShardingVo();
         logger.info("job开始");
         ParsingThread parsingThread = new ParsingThread(sftpPool);
-        for(int i = 0; i < 10; i++){
-            new Thread(parsingThread, "线程" + i).start();
+        for (int i = 0; i < 20; i++) {
+            new Thread(() -> threadPoolExecutor.execute(parsingThread)).start();
         }
         logger.info("job结束");
         return IJobHandler.SUCCESS;
