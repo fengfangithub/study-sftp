@@ -2,6 +2,7 @@ package cn.fengfan.sftptest.util;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpException;
+import lombok.Data;
 
 import java.io.InputStream;
 
@@ -9,6 +10,7 @@ import java.io.InputStream;
  * Created by fengfan on 2021/11/30 21:20
  */
 // sftp辅助类
+@Data
 public class SftpUtil {
 
     private final SftpPool pool;
