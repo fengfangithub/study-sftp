@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Created by fengfan on 2021/11/30 21:20
  */
-// ftp配置
+// sftp配置
 @Configuration
 public class SftpConfig {
 
