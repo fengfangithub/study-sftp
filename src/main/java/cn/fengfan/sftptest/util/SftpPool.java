@@ -3,6 +3,8 @@ package cn.fengfan.sftptest.util;
 import com.jcraft.jsch.ChannelSftp;
 import lombok.Data;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Created by fengfan on 2021/11/30 21:19
@@ -10,10 +12,21 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 @Data
 public class SftpPool {
 
+    @Value("${sftp.pool.max-total}")
+    private int maxTotal;
+    @Value("${sftp.pool.max-idle}")
+    private int maxIdle;
+    @Value("${sftp.pool.min-idle}")
+    private int minIdle;
+
     private GenericObjectPool<ChannelSftp> pool;
 
-    public SftpPool(SftpFactory factory, SftpPoolProperties sftpPoolProperties) {
-        this.pool = new GenericObjectPool<>(factory, sftpPoolProperties);
+    public SftpPool(SftpFactory factory) {
+        GenericObjectPoolConfig<ChannelSftp> genericObjectPoolConfig = new GenericObjectPoolConfig<>();
+        genericObjectPoolConfig.setMaxIdle(maxIdle);
+        genericObjectPoolConfig.setMaxTotal(maxTotal);
+        genericObjectPoolConfig.setMinIdle(minIdle);
+        this.pool = new GenericObjectPool<>(factory, genericObjectPoolConfig);
     }
 
     /**

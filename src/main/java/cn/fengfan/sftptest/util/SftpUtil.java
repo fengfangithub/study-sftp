@@ -15,10 +15,6 @@ public class SftpUtil {
 
     private final SftpPool pool;
 
-    public SftpUtil(SftpPool pool) {
-        this.pool = pool;
-    }
-
     /**
      * 下载文件
      *

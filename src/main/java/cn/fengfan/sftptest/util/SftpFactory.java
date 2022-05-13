@@ -7,6 +7,7 @@ import com.jcraft.jsch.Session;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Properties;
 
@@ -14,18 +15,20 @@ import java.util.Properties;
  * Created by fengfan on 2021/11/30 21:16
  */
 public class SftpFactory extends BasePooledObjectFactory<ChannelSftp> {
-
-    private SftpProperties properties;
-
-    public SftpFactory(SftpProperties properties) {
-        this.properties = properties;
-    }
+    @Value("${sftp.host}")
+    private String host;
+    @Value("${sftp.port}")
+    private int port;
+    @Value("${sftp.username}")
+    private String username;
+    @Value("${sftp.password}")
+    private String password;
 
     @Override
     public ChannelSftp create() throws JSchException {
         JSch jsch = new JSch();
-        Session sshSession = jsch.getSession(properties.getUsername(), properties.getHost(), properties.getPort());
-        sshSession.setPassword(properties.getPassword());
+        Session sshSession = jsch.getSession(username, host, port);
+        sshSession.setPassword(password);
         Properties sshConfig = new Properties();
         sshConfig.put("StrictHostKeyChecking", "no");
         sshSession.setConfig(sshConfig);
@@ -67,13 +70,5 @@ public class SftpFactory extends BasePooledObjectFactory<ChannelSftp> {
             channelSftp.connect();
         }
 
-    }
-
-    public SftpProperties getProperties() {
-        return properties;
-    }
-
-    public void setProperties(SftpProperties properties) {
-        this.properties = properties;
     }
 }

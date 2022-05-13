@@ -8,6 +8,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 线程池配置
+ *
  * Created by fengfan on 2022/1/20 15:25
  */
 @Configuration
