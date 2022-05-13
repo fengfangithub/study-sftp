@@ -1,7 +1,7 @@
 package cn.fengfan.sftptest.job;
 
 import cn.fengfan.sftptest.parsing.ParsingThread;
-import cn.fengfan.sftptest.util.SftpPool;
+import cn.fengfan.sftptest.util.SftpUtil;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class TestJob extends IJobHandler {
     Logger logger = LoggerFactory.getLogger(TestJob.class);
     @Resource
-    private SftpPool sftpPool;
+    private SftpUtil sftpUtil;
     @Resource
     private ThreadPoolExecutor threadPoolExecutor;
 
@@ -30,8 +30,8 @@ public class TestJob extends IJobHandler {
         // 分片参数
         ShardingUtil.ShardingVO shardingVO = ShardingUtil.getShardingVo();
         logger.info("job开始");
-        ParsingThread parsingThread = new ParsingThread(sftpPool);
-        for (int i = 0; i < 20; i++) {
+        ParsingThread parsingThread = new ParsingThread(sftpUtil);
+        for (int i = 0; i < 10; i++) {
             new Thread(() -> threadPoolExecutor.execute(parsingThread)).start();
         }
         logger.info("job结束");

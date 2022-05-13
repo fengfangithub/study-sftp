@@ -1,8 +1,12 @@
 package cn.fengfan.sftptest.config;
 
 import cn.fengfan.sftptest.util.SftpFactory;
-import cn.fengfan.sftptest.util.SftpPool;
+import cn.fengfan.sftptest.util.SftpGenericObjectPool;
 import cn.fengfan.sftptest.util.SftpUtil;
+import com.jcraft.jsch.ChannelSftp;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,21 +29,19 @@ public class SftpConfig {
         return new SftpFactory();
     }
 
-    /**
-     * 连接池
-     *
-     * @author fengfan
-     * @date 2022/1/14 14:38
-     * @param sftpFactory
-     * @return
-     */
     @Bean
-    public SftpPool sftpPool(SftpFactory sftpFactory) {
-        return new SftpPool(sftpFactory);
+    @ConfigurationProperties(prefix = "sftp.pool")
+    public GenericObjectPoolConfig<ChannelSftp> sftpPoolConfig(){
+        return new GenericObjectPoolConfig<>();
     }
 
     @Bean
-    public SftpUtil sftpUtil(SftpPool sftpPool){
+    public SftpGenericObjectPool sftpPool(SftpFactory sftpFactory, GenericObjectPoolConfig<ChannelSftp> sftpPoolConfig){
+        return new SftpGenericObjectPool(sftpFactory, sftpPoolConfig);
+    }
+
+    @Bean
+    public SftpUtil sftpUtil(SftpGenericObjectPool sftpPool){
        return new SftpUtil(sftpPool);
     }
 

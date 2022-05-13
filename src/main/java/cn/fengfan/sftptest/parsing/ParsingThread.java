@@ -1,6 +1,5 @@
 package cn.fengfan.sftptest.parsing;
 
-import cn.fengfan.sftptest.util.SftpPool;
 import cn.fengfan.sftptest.util.SftpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,18 +14,17 @@ public class ParsingThread implements Runnable{
     Logger logger = LoggerFactory.getLogger(ParsingThread.class);
     private final SftpUtil sftpUtil;
 
-    public ParsingThread(SftpPool sftpPool) {
-        this.sftpUtil = new SftpUtil(sftpPool);
+    public ParsingThread(SftpUtil sftpUtil) {
+        this.sftpUtil = sftpUtil;
     }
 
     @Override
     public void run() {
         logger.info(Thread.currentThread().getName() + "文件上传开始");
         try {
-            FileInputStream fileInputStream = new FileInputStream("C:\\Users\\fengfan\\Pictures\\Saved Pictures\\timg" + ".jpg");
+            FileInputStream fileInputStream = new FileInputStream("C:\\Users\\fengfan\\Pictures\\Saved Pictures\\发财树" + ".jpg");
             String fileName = UUID.randomUUID().toString().replace("-", "") + ".jpg";
             sftpUtil.upload("/upload/" + Thread.currentThread().getName() + "/", fileName, fileInputStream);
-            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }
